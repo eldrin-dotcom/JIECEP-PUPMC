@@ -53,6 +53,17 @@ header {
   justify-content: center;
   list-style: none;
   padding: 10px 0;
+  flex-wrap: wrap; /* This is the key */
+}
+
+@media (max-width: 768px) {
+  .navbar ul li {
+    margin: 5px 10px;
+  }
+
+  .navbar ul li a {
+    font-size: 12px;
+  }
 }
 
 .navbar ul li {
