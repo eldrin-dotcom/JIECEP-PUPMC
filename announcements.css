@@ -1,0 +1,150 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  width: 100%;
+}
+
+/* Top blue banner with logo and text */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  background-color: #97c4df; /* Light blue */
+  padding: 10px 20px;
+  flex-wrap: nowrap;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.title h2 {
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 0 1px 2px #000;
+  font-weight: bold;
+}
+
+.title p {
+  font-size: 14px;
+  color: #fff;
+  text-shadow: 0 1px 2px #000;
+}
+
+/* Navigation bar */
+.navbar {
+  background-color: #003366; /* Dark blue */
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 10px 0;
+}
+
+.navbar ul li {
+  margin: 0 20px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+  color: #97c4df; /* Optional: hover color */
+}
+@media (max-width: 768px) {
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .title h2 {
+    font-size: 1rem;
+  }
+
+  .title p {
+    font-size: 0.8rem;
+  }
+
+  .navbar ul li a {
+    font-size: 0.85rem;
+  }
+}
+@media (max-width: 768px) {
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .title h2 {
+    font-size: 1rem;
+  }
+
+  .title p {
+    font-size: 0.8rem;
+  }
+
+  .navbar ul li a {
+    font-size: 0.85rem;
+  }
+}
+/*end of navigation bar code*/
+/*Announcements*/
+
+.Announcements {
+  padding: 40px;
+  background-color: #f2f2f2;
+  text-align: center;
+}
+
+.Announcements h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #003366;
+}
+
+.container {
+  display: flex;
+  overflow-x: auto;        /* Enables horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Smooth snapping */
+  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+  gap: 20px;
+  padding-bottom: 10px;
+}
+
+.card {
+  flex: 0 0 auto;           /* Prevents shrinking and allows side-by-side layout */
+  width: 80%;               /* Adjust width for mobile */
+  max-width: 300px;
+  scroll-snap-align: start; /* Snaps each card cleanly */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.2s ease;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
