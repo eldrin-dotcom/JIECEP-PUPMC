@@ -93,7 +93,8 @@ body {
 /* Mobile styles */
 @media (max-width: 768px) {
   .navbar {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
     flex-direction: column;
     position: absolute;
     top: 100%;
