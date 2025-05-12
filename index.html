@@ -3,28 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ECE Organization</title>
+  <title>JIECEP-PUPMC</title>
   <link rel="stylesheet" href="landingpage style.css" />
 </head>
 <body>
 
   <!-- Header -->
-  <header>
-    <div class="top-bar">
-      <img src="JIECEP logo.png" alt="JIECEP Logo" class="logo" />
-      <div class="title">
-        <h2>JUNIOR INSTITUTE OF ELECTRONICS ENGINEERS OF THE PHILIPPINES</h2>
-        <p>Polytechnic University of the Philippines - Maragondon Campus</p>
+  <header class="Navigation">
+    <div class="Org-logo">
+      <img src="Assets/JIECEP logo.png" alt="JIECEP Logo" class="logo" />
+      <div class="Org-name">
+        <h2>JUNIOR INSTITUTE<br>OF ELECTRONICS ENGINEERS<br>OF THE PHILIPPINES<br>PUPMC<br></h2>
       </div>
     </div>
+
+    <!-- Hamburger icon -->
+  <button class="hamburger" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+
     <nav class="navbar">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="announcements.html">Announcements</a></li>
-        <li><a href="#">Accomplishments</a></li>
-        <li><a href="#">Officers</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+      <a href="index.html">Home</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="accomplishments.html">Accomplishments</a>
+      <a href="officers.html">Officers</a>
     </nav>
   </header>
 
@@ -72,6 +74,26 @@
       <p>&copy; 2025 JIECEP PUPMC Organization. All rights reserved.</p>
     </div>
   </footer>
+<script>
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.navbar');
+  const navItems = document.querySelectorAll('.navbar a');
 
+  // Toggle menu
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
+  });
+
+  // Auto-close menu when link is clicked (on mobile)
+  navItems.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth < 768) {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+      }
+    });
+  });
+</script>
 </body>
 </html>
