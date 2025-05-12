@@ -17,16 +17,28 @@
       </div>
     </div>
 
-    <!-- Hamburger icon -->
-  <button class="hamburger" aria-label="Toggle navigation">
-    <span></span><span></span><span></span>
-  </button>
-
     <nav class="navbar">
-      <a href="index.html">Home</a>
-      <a href="announcements.html">Announcements</a>
-      <a href="accomplishments.html">Accomplishments</a>
-      <a href="officers.html">Officers</a>
+      <a href="#" class="nav-branding"></a>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="announcements.html" class="nav-link">Announcements</a>
+        </li>
+        <li class="nav-item">
+          <a href="accomplishments.html" class="nav-link">Accomplishments</a>
+        </li>
+        <li class="nav-item">
+          <a href="officers.html" class="nav-link">Officers</a>
+        </li>
+      </ul>
+      <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
     </nav>
   </header>
 
@@ -74,26 +86,6 @@
       <p>&copy; 2025 JIECEP PUPMC Organization. All rights reserved.</p>
     </div>
   </footer>
-<script>
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.navbar');
-  const navItems = document.querySelectorAll('.navbar a');
-
-  // Toggle menu
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-  });
-
-  // Auto-close menu when link is clicked (on mobile)
-  navItems.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth < 768) {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
-      }
-    });
-  });
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
