@@ -1,0 +1,104 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+}
+
+.navbar{
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  position:fixed;
+  top:0;
+  left:0;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding:10px 40px;
+  backdrop-filter: blur(20px);
+  width:100%;
+  z-index: 1000;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Soft hover */
+  color: white;
+}
+
+.dropdown-menu {
+  background-color:rgba(0, 0, 0, 0); /* Dark, semi-transparent */
+  backdrop-filter: blur(10px); /* Matches the navbar blur */
+  border: none;
+  box-shadow: none;
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Soft hover */
+  color: white;
+}
+
+
+/*hero section start*/
+.hero{
+  background-image: url("Assets/Hero\ background.jpg");
+  width: 100%;
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment:scroll;/* This keeps it fixed during scrolling */
+  z-index: -1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0px 30px;
+}
+
+
+.bold {
+  font-weight: 800;
+  color: blue;
+  border-color: #ffffff;
+}
+
+.light {
+  color: white;
+}
+
+.ECE{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 100px);
+}
+
+.lead{
+  font-weight: 400;
+  font-size: clamp(16px, 2vw, 18px);
+}
+/*hero section ends*/
+
+.featured {
+  padding: 2rem;
+}
+.art:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.web-background {
+  background: linear-gradient(135deg, #e6f2ff, #f9fcff);
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+  
+
+carousel-img {
+    height: 300px; /* adjust as needed */
+    object-fit: cover;
+  }
+
+.custom-carousel {
+    max-width: 600px;
+  }
