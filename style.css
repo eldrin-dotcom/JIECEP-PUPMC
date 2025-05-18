@@ -42,7 +42,7 @@ body {
 
 /*hero section start*/
 .hero{
-  background-image: url("Assets/Hero\ background.jpg");
+  background-image: url("Hero\ background.jpg");
   width: 100%;
   min-height: 100vh;
   background-repeat: no-repeat;
