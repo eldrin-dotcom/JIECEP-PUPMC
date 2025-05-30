@@ -129,29 +129,20 @@ a{
     transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background: linear-gradient(45deg, #6c5ce7, #a363d9);
-    border: none;
-    box-shadow: 0 5px 15px rgba(108,92,231,0.2);
-}
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(108,92,231,0.3);
 }
 
 .btn-outline {
-    border: 2px solid #6c5ce7;
-    color: #6c5ce7;
+    border: 2px solid #ecebf4;
+    color: #fbfbfd;
     background: transparent;
 }
 
 .btn-outline:hover {
-    background: linear-gradient(45deg, #6c5ce7, #a363d9);
     color: white;
     border-color: transparent;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(108,92,231,0.3);
 }
 
 .hero-stats {
@@ -326,13 +317,77 @@ body,
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-.about-img {
-  max-width: 700px;
-  width: 100%;
-  border-radius: 2rem;
-  object-fit: cover;
+/* Add or update these styles for horizontal scrolling cards */
+.img-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #54acbf #e0e0e0;
+  scroll-snap-type: x mandatory;
 }
+
+.img-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.img-container::-webkit-scrollbar-thumb {
+  background: #54acbf;
+  border-radius: 4px;
+}
+
+.img-container::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 4px;
+}
+
+.img-container .row {
+  flex-wrap: nowrap !important;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  min-width: max-content;
+  width: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.img-container .col {
+  flex: 0 0 auto;
+  width: 220px; /* Adjust as needed for card width */
+  max-width: 90vw;
+  scroll-snap-align: center;
+}
+
+.img-container .card {
+  min-width: 200px;
+  max-width: 220px;
+  height: 100%;
+  margin: 0 auto;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  will-change: transform, filter;
+}
+
+.img-container .card:hover {
+  transform: scale(1.08);
+  z-index: 2;
+  filter: none;
+}
+
+/* Blur all sibling cards when one is hovered or one is active */
+.img-container:hover .card:not(:hover),
+.img-container:has(.card.active) .card:not(.active) {
+  filter: blur(3px) grayscale(30%);
+  transition: filter 0.3s;
+}
+
+
 
 .btn-indigo {
   background-color: #4f46e5;
@@ -354,10 +409,28 @@ body,
    height: 100vh;
 }
 
+.tagline{
+  background-color:#54acbf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
+  font-weight: 900;
+  font-family: poppins, sans-serif;
+}
 
-.footer{
+.text{
+  background: linear-gradient(45deg,#0033ff 0%, #00033D 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer {
   background-color: #54acbf;
-  color: white;
-  padding: 2rem 0;
-  text-align: center;
+  
+}
+
+.footer-container{
+  padding-top: 20px;
 }
