@@ -387,7 +387,12 @@ body,
   transition: filter 0.3s;
 }
 
-
+.img-container .card.active,
+.img-container .card:hover {
+  transform: scale(1.08);
+  z-index: 2;
+  filter: none;
+}
 
 .btn-indigo {
   background-color: #4f46e5;
