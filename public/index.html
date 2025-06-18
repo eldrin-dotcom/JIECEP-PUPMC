@@ -1,493 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JIECEP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  </head>
-    <body>
-      <!--Navigation-->
-          <nav class="navbar navbar-expand-lg navbar-dark ">
-              <div class="container-fluid">
-              <a class="navbar-brand mb-0 h1 fw-bold" href="#">JIECEP</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                  <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle no-caret text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Resources
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Class Files</a></li>
-                      <li><a class="dropdown-item" href="#">E-books</a></li>
-                      <li><a class="dropdown-item" href="#">Projects</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                  </ul>
-                  </li>
-                  <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle no-caret text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Community
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Events/Announcements</a></li>
-                      <li><a class="dropdown-item" href="#">Accomplishments</a></li>
-                      <li><a class="dropdown-item" href="#">JIECEP</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                  </ul>
-                  </li>
-                  <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle no-caret text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Contact us
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Facebook</a></li>
-                      <li><a class="dropdown-item" href="#">E-mail</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                  </ul>
-                  </li>
-              </ul>
-              <form class="d-flex">
-                  <a href="Login-form.html" class="btn btn-outline-light">Log In</a>
-              </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JIECEP-PUPMC - ECentral Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (optional, but good for consistency) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing global variables from dashboard for consistent branding */
+        :root {
+            --primary-blue: #007bff;
+            --light-blue: #e8f0fe;
+            --dark-blue-text: #2c3e50;
+            --medium-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --card-shadow: rgba(0, 0, 0, 0.05);
+            --gradient-start: #4A90E2; /* From welcome card gradient */
+            --gradient-end: #7B68EE;   /* From welcome card gradient */
+        }
 
-          </div>
-      </nav>
-      
-      <!--Navigation End-->
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-blue-text);
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes footer to bottom */
+        }
 
-      
-  <!--Hero Section-->
-  <section class="hero-section">
-          <!-- Background Shapes -->
-          <div class="hero-shape shape-1"></div>
-          <div class="hero-shape shape-2"></div>
+        .hero-section {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            flex-grow: 1; /* Takes up remaining space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1.5rem; /* Padding for content */
+        }
 
-          <div class="container">
-              <div class="row align-items-center">
-                  <!-- Hero Content -->
-                  <div class="col-lg-6 hero-content">
-                      <h1 class="hero-title">ECEntral</h1>
-                      <p class="hero-subtitle">
-                          Your one-stop platform for all things JIECEP.
-  Stay connected with announcements, access important class files, explore projects, and celebrate our achievements together — all in one place</p>
-                      
-                      <!-- CTA Buttons -->
-                      <div class="hero-buttons">
-                          <a href="Login-form.html" class="btn btn-primary me-3 mb-2">Log in</a>
-                      </div>
+        .organization-name {
+            font-size: clamp(1.5rem, 4vw + 1rem, 3rem); /* Responsive font size */
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
 
-                      <!-- Stats -->
-                      <div class="hero-stats row">
-                          <div class="col-4">
-                              <div class="stat-item">
-                                  <div class="stat-icon"><i class="bi bi-folder-fill"></i></div>
-                                  <div class="stat-label"><a href="#">Files</a></div>
-                              </div>
-                          </div>
-                          <div class="col-4">
-                              <div class="stat-item">
-                                  <div class="stat-icon"><i class="bi bi-book-fill"></i></div>
-                                  <div class="stat-label"><a href="#">E-Books</a></div>
-                              </div>
-                          </div>
-                          <div class="col-4">
-                              <div class="stat-item">
-                                  <div class="stat-icon"><i class="bi bi-star-half"></i></div>
-                                  <div class="stat-label"><a href="#">Featured Projects</a></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+        .dashboard-tagline {
+            font-size: clamp(1rem, 2vw + 0.5rem, 1.5rem); /* Responsive font size */
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
 
-                  <!-- Hero Image -->
-                  <div class="col-lg-6 hero-image">
-                      <img src="Assets/JIECEP logo.png" alt="Platform Dashboard" class="hero-image-main">
-                      
-                  </div>
-              </div>
-          </div>
-      </section>
+        .btn-access-dashboard {
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            border: 2px solid white;
+            color: white;
+            font-weight: 600;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none; /* Ensure no underline */
+        }
 
-      <!--Hero Section End -->
+        .btn-access-dashboard:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            color: white; /* Keep text white on hover */
+        }
 
-      <section class="whats-new">
+        .footer-section {
+            background-color: var(--dark-blue-text);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
 
-              <!-- Two Column Section -->
-          <div class="container px-5">
-                  <div class="featured h-75">
-                      <h1 class="border-bottom border-primary border-4 pb-2 mb-4 fw-bold">
-                          What's New
-                      </h1>
-                      <div class="row g-5">
-                          <section class="col-12 col-lg-6">
-                              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                                  <div class="carousel-inner">
-                                      <div class="carousel-item active" data-bs-interval="10000">
-                                          <img src="Assets/assembly.jpg" class="d-block w-100 rounded" alt="Assembly">
-                                      </div>
-                                      <div class="carousel-item" data-bs-interval="2000">
-                                          <img src="Assets/election.jpg" class="d-block w-100 rounded" alt="Election">
-                                      </div>
-                                      <div class="carousel-item">
-                                          <img src="Assets/assembly.jpg" class="d-block w-100 rounded" alt="Assembly Again">
-                                      </div>
-                                  </div>
+        .footer-section a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-                                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Previous</span>
-                                  </button>
+        .footer-section a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
 
-                                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Next</span>
-                                  </button>
-                              </div>
-                          </section>
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="organization-name mb-3">
+                Junior Institute of Electronics Engineers of the Philippines <br>
+                <small> PUP-MC </small>
+            </h1>
+            <p class="dashboard-tagline">
+                Your Central Hub for Academic Success: <span style="font-weight: 700;">ECentral</span> Dashboard
+            </p>
+            <a href="dashboard.html" class="btn btn-access-dashboard">
+                Access ECentral Dashboard <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
 
-                          <section class="col-12 col-lg-6">
-                              <div class="border-bottom border-primary pb-2 mb-4">
-                                  <h3 class="fw-bold">ELECTION DAY</h3>
-                                  <p class="text-muted">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus dolor officiis voluptates aliquid totam. Sapiente cum animi perferendis nostrum incidunt a accusamus, iste, consequatur quaerat maxime laboriosam dicta, velit itaque.                            </p>
-                                  <a href="#" class="btn btn-primary">See More</a>
-                              </div>
-                              <div class="border-bottom border-primary pb-2 mb-4">
-                                  <h3 class="fw-bold">Assembly</h3>
-                                  <p class="text-muted">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus dolor officiis voluptates aliquid totam. Sapiente cum animi perferendis nostrum incidunt a accusamus, iste, consequatur quaerat maxime laboriosam dicta, velit itaque.                            </p>
-                                  <a href="#" class="btn btn-primary">See More</a>
-                              </div>
-                          </section>
-                      </div>
-                  </div>
-              </div>
-          </section>
-          <section class="books mt-5">
-              <div class="container text-center h-100">
-                  <div class="featured-section mb-5">
-                      <h2 class="book-text fw-bold "><a href="#">Resources</a></h2>
-                  </div>
-              </div>
-              <div class="main-container">
-                  <div class="slider">
-                      <div class="list">
-                          <div class="item card">
-                              <img src="Assets/ebook 1.png" class="card-img-top" alt="Book 1">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 2.png" class="card-img-top" alt="Book 2">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 3.png" class="card-img-top" alt="Book 3">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 4.png" class="card-img-top" alt="Book 4">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 5.png" class="card-img-top" alt="Book 5">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 6.png" class="card-img-top" alt="Book 6">
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="main-container">
-                  <div class="slider reverse">
-                      <div class="list">
-                          <div class="item card">
-                              <img src="Assets/ebook 6.png" class="card-img-top" alt="Book 1">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 5.png" class="card-img-top" alt="Book 2">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 4.png" class="card-img-top" alt="Book 3">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 3.png" class="card-img-top" alt="Book 4">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 2.png" class="card-img-top" alt="Book 5">
-                          </div>
-                          <div class="item card">
-                              <img src="Assets/ebook 1.png" class="card-img-top" alt="Book 6">
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="container text-center h-100">
-                  <div class="featured-section mb-5">
-                      <h2 class="book-text fw-bold "><a href="#">Access Our E-book Collection</a></h2>
-                      <p class="text-muted fst-italic">
-                          "Explore a wide range of engineering e-books available for download."
-                      </p>
-                  </div>
-              </div>
+    <footer class="footer-section">
+        <div class="container">
+            <p class="mb-0">&copy; 2023 JIECEP-PUPMC. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
 
-          </section>
-      </section>
-
-      <section class="hero">
-          <div class="about text-center py-5">
-                  <h1 class="display-4 fw-bold mb-4">About Us</h1>
-
-                  <!-- 16 Cards Grid -->
-                  <div class="img-container my-5 mx-2">
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 1">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 1</h5>
-                            <p class="card-text">Short description for card 1.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 2">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 2</h5>
-                            <p class="card-text">Short description for card 2.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 3">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 3</h5>
-                            <p class="card-text">Short description for card 3.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 4">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 4</h5>
-                            <p class="card-text">Short description for card 4.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 5">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 5</h5>
-                            <p class="card-text">Short description for card 5.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 6">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 6</h5>
-                            <p class="card-text">Short description for card 6.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 7">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 7</h5>
-                            <p class="card-text">Short description for card 7.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 8">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 8</h5>
-                            <p class="card-text">Short description for card 8.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 9">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 9</h5>
-                            <p class="card-text">Short description for card 9.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 10">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 10</h5>
-                            <p class="card-text">Short description for card 10.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 11">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 11</h5>
-                            <p class="card-text">Short description for card 11.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 12">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 12</h5>
-                            <p class="card-text">Short description for card 12.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 13">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 13</h5>
-                            <p class="card-text">Short description for card 13.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 14">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 14</h5>
-                            <p class="card-text">Short description for card 14.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 15">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 15</h5>
-                            <p class="card-text">Short description for card 15.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="card h-100">
-                          <img src="Assets/Placeholder_Person.jpg" class="card-img-top" alt="Card 16">
-                          <div class="card-body">
-                            <h5 class="card-title">Card Title 16</h5>
-                            <p class="card-text">Short description for card 16.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-      
-          </div> 
-      </section>
-      <section class="tagline py-5">
-          <div class="tagline display-4">
-              <h1 class="fw-bold text-white">ONE <span class="text">Organization<br></span> ONE <span class="text">Profession<br></span> ONE <span class="text">Family</span></h1>
-          </div>       
-      </section>
-      <section class="footer ">
-          <div class="footer-container text-center">
-              <p class="text-muted mb-0">© 2023 JIECEP. All rights reserved.</p>
-              <p class="text-muted mb-0">Follow us on <a href="#" class="text-decoration-none">Facebook</a> | <a href="#" class="text-decoration-none">Instagram</a> | <a href="#" class="text-decoration-none">Twitter</a></p>
-          </div>
-
-      </section>
-
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-      <script>
-          window.addEventListener('DOMContentLoaded', function() {
-              const container = document.querySelector('.img-container');
-              const cards = container.querySelectorAll('.col');
-              if (cards.length > 0) {
-                  // Find the middle card
-                  const middleIndex = Math.floor(cards.length / 2);
-                  const middleCard = cards[middleIndex];
-                  // Scroll so the middle card is centered
-                  const scrollLeft = middleCard.offsetLeft - (container.offsetWidth / 2) + (middleCard.offsetWidth / 2);
-                  container.scrollLeft = scrollLeft;
-                  // Add 'active' class to the middle card
-                  middleCard.querySelector('.card').classList.add('active');
-              }
-
-              // Optional: On hover, remove 'active' from all, add to hovered
-              container.querySelectorAll('.card').forEach(card => {
-                  card.addEventListener('mouseenter', function() {
-                      container.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-                      this.classList.add('active');
-                  });
-                  card.addEventListener('mouseleave', function() {
-                      container.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-                      // Restore active to middle card
-                      if (cards.length > 0) {
-                          const middleIndex = Math.floor(cards.length / 2);
-                          cards[middleIndex].querySelector('.card').classList.add('active');
-                      }
-                  });
-              });
-          });
-          
-          function updateActiveCardOnScroll() {
-            const container = document.querySelector('.img-container');
-            if (!container) return;
-            const cards = container.querySelectorAll('.col .card');
-            if (!cards.length) return;
-
-            // Get the center of the container
-            const containerRect = container.getBoundingClientRect();
-            const containerCenter = containerRect.left + containerRect.width / 2;
-
-            let minDiff = Infinity;
-            let activeCard = null;
-
-            cards.forEach(card => {
-              const cardRect = card.getBoundingClientRect();
-              const cardCenter = cardRect.left + cardRect.width / 2;
-              const diff = Math.abs(containerCenter - cardCenter);
-              if (diff < minDiff) {
-                minDiff = diff;
-                activeCard = card;
-              }
-            });
-
-            // Remove 'active' from all, add to the centered card
-            cards.forEach(card => card.classList.remove('active'));
-            if (activeCard) activeCard.classList.add('active');
-          }
-
-          function setupActiveCardScroll() {
-            const container = document.querySelector('.img-container');
-            if (!container) return;
-
-            // Always enable on mobile, and optionally on desktop if you want
-            if (window.innerWidth <= 768) {
-              container.addEventListener('scroll', updateActiveCardOnScroll);
-              // Initial call
-              updateActiveCardOnScroll();
-            } else {
-              // Remove active on scroll for desktop, hover will take over
-              container.removeEventListener('scroll', updateActiveCardOnScroll);
-              // Remove all active classes
-              container.querySelectorAll('.col .card').forEach(card => card.classList.remove('active'));
-            }
-          }
-
-          window.addEventListener('DOMContentLoaded', setupActiveCardScroll);
-          window.addEventListener('resize', setupActiveCardScroll);
-
-      </script>
-    </body>
+    <!-- Bootstrap JS Bundle (optional for this page, but good practice for full site) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
