@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECEntral - Dashboard</title>
-    <link rel="icon" href="images/jiecep logo.svg" type="image/svg+xml">
+    <link rel="icon" href="../images/jiecep logo.svg" type="image/svg+xml">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dashboard.css" rel="stylesheet">
@@ -67,7 +67,7 @@
             <section class="col-12 col-lg-8 card welcome-card ">
                 <div class="row align-items-center">
                     <div class="col-12 col-md-8 welcome-text">
-                        <h2 class="mb-2" id="welcomeMessage">Welcome back, Alex</h2>
+                        <h2 class="mb-2" id="welcomeMessage">Welcome back, Student!</h2>
                         <p class="progress-info">Your semester progress</p>
                         <div class="progress-bar-custom mb-3">
                             <div class="progress-fill"></div>
@@ -307,8 +307,12 @@
                 // User is signed in, update welcome message
                 console.log("User logged in:", user.email || user.uid);
                 // Extract username from email or use display name if available
-                const username = user.displayName || (user.email ? user.email.split('@')[0] : 'Student');
+                if (user.email) {
+                let username = user.email.split('@')[0].replace(/[0-9]/g, '');
+                username = username.charAt(0).toUpperCase() + username.slice(1);
                 welcomeMessage.textContent = `Hello, ${username}!`;
+            }
+
 
                 // Optionally hide login/signup forms and show dashboard content
                 // if this script was on a public page. For dashboard, it's assumed

@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JIECEP-PUPMC ECEntral</title>
+    <title>JIECEP PUPMC ECEntral</title>
     <link rel="icon" href="images/jiecep logo.svg" type="image/svg+xml">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (for password toggle) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -75,6 +77,24 @@
             width: 90%;
             max-width: 350px;
         }
+
+        /* Password toggle button styling */
+        .input-group-text {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-left: none;
+            cursor: pointer;
+            border-top-right-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+        .input-group > .form-control:focus + .input-group-text {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            z-index: 3; /* Ensure it stays above when focused */
+        }
+        .input-group .form-control {
+            border-right: none; /* Integrate with addon */
+        }
         /* Mobile adjustments */
         @media (max-width: 575.98px) {
             .auth-container {
@@ -89,22 +109,37 @@
 </head>
 <body>
     <div class="auth-container">
-        <h1 id="authTitle">Login to ECEntral</h1>
+        <h1 id="authTitle">Login to Student Portal</h1>
         <div id="messageContainer" class="message-container"></div>
 
         <div id="loginForm">
-            <!-- Input type is still 'text' for user flexibility -->
             <input type="text" id="loginEmail" class="form-control mb-3" placeholder="Email" required />
-            <input type="password" id="loginPassword" class="form-control mb-4" placeholder="Password" required />
+            <div class="input-group mb-2">
+                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required />
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleLoginPassword">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+            </div>
+            <a href="#" id="forgotPasswordLink" class="d-block text-end mb-4 toggle-link">Forgot Password?</a>
             <button id="loginBtn" class="btn btn-primary w-100 mb-3">Login</button>
             <p>Don't have an account? <a href="#" id="showSignup" class="toggle-link">Sign Up</a></p>
         </div>
 
         <div id="signupForm" style="display: none;">
-            <input type="text" id="signupUsername" class="form-control mb-3" placeholder="Username" required />
+            <!-- Username input removed as requested -->
             <input type="email" id="signupEmail" class="form-control mb-3" placeholder="Email" required />
-            <input type="password" id="signupPassword" class="form-control mb-3" placeholder="Password" required />
-            <input type="password" id="confirmPassword" class="form-control mb-4" placeholder="Confirm Password" required />
+            <div class="input-group mb-3">
+                <input type="password" id="signupPassword" class="form-control" placeholder="Password" required />
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleSignupPassword">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+            </div>
+            <div class="input-group mb-4">
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required />
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleConfirmPassword">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+            </div>
             <button id="signupBtn" class="btn btn-primary w-100 mb-3">Sign Up</button>
             <p>Already have an account? <a href="#" id="showLogin" class="toggle-link">Login</a></p>
         </div>
@@ -114,7 +149,7 @@
         // Changed import paths to be absolute from the root (e.g., /js/auth.js)
         import { signInUser, signUpUser } from "/js/auth.js";
         import { auth } from "/js/firebase-init.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // DOM Elements
         const authTitle = document.getElementById("authTitle");
@@ -122,7 +157,7 @@
         const signupForm = document.getElementById("signupForm");
         const loginEmailInput = document.getElementById("loginEmail");
         const loginPasswordInput = document.getElementById("loginPassword");
-        const signupUsernameInput = document.getElementById("signupUsername"); // Re-added username input
+        // Removed signupUsernameInput
         const signupEmailInput = document.getElementById("signupEmail");
         const signupPasswordInput = document.getElementById("signupPassword");
         const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -130,7 +165,14 @@
         const signupBtn = document.getElementById("signupBtn");
         const showSignupLink = document.getElementById("showSignup");
         const showLoginLink = document.getElementById("showLogin");
+        const forgotPasswordLink = document.getElementById("forgotPasswordLink"); // New: Forgot password link
         const messageContainer = document.getElementById("messageContainer");
+
+        // Password toggle buttons
+        const toggleLoginPasswordBtn = document.getElementById('toggleLoginPassword');
+        const toggleSignupPasswordBtn = document.getElementById('toggleSignupPassword');
+        const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+
 
         // Function to display messages to the user
         function showMessage(message, type = 'danger') {
@@ -155,6 +197,37 @@
             }, 5000);
         }
 
+        // Function to toggle password visibility
+        function togglePasswordVisibility(passwordInput, toggleButton) {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.querySelector('i').classList.remove('fa-eye-slash');
+                toggleButton.querySelector('i').classList.add('fa-eye');
+            } else {
+                passwordInput.type = "password";
+                toggleButton.querySelector('i').classList.remove('fa-eye');
+                toggleButton.querySelector('i').classList.add('fa-eye-slash');
+            }
+        }
+
+        // Attach toggle functionality to buttons
+        if (toggleLoginPasswordBtn) {
+            toggleLoginPasswordBtn.addEventListener('click', () => {
+                togglePasswordVisibility(loginPasswordInput, toggleLoginPasswordBtn);
+            });
+        }
+        if (toggleSignupPasswordBtn) {
+            toggleSignupPasswordBtn.addEventListener('click', () => {
+                togglePasswordVisibility(signupPasswordInput, toggleSignupPasswordBtn);
+            });
+        }
+        if (toggleConfirmPasswordBtn) {
+            toggleConfirmPasswordBtn.addEventListener('click', () => {
+                togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordBtn);
+            });
+        }
+
+
         // Toggle between login and signup forms
         showSignupLink.addEventListener("click", (e) => {
             e.preventDefault();
@@ -163,6 +236,10 @@
             loginForm.style.display = "none";
             signupForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
+            // Reset password input types to 'password' when switching forms
+            loginPasswordInput.type = "password";
+            toggleLoginPasswordBtn.querySelector('i').classList.remove('fa-eye');
+            toggleLoginPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
         });
 
         showLoginLink.addEventListener("click", (e) => {
@@ -172,11 +249,18 @@
             signupForm.style.display = "none";
             loginForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
+            // Reset password input types to 'password' when switching forms
+            signupPasswordInput.type = "password";
+            confirmPasswordInput.type = "password";
+            toggleSignupPasswordBtn.querySelector('i').classList.remove('fa-eye');
+            toggleSignupPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            toggleConfirmPasswordBtn.querySelector('i').classList.remove('fa-eye');
+            toggleConfirmPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
         });
 
         // Login button event listener
         loginBtn.addEventListener("click", async () => {
-            const email = loginEmailInput.value; // Still collects as 'email' for Firebase
+            const email = loginEmailInput.value;
             const password = loginPasswordInput.value;
 
             if (!email || !password) {
@@ -195,12 +279,12 @@
 
         // Signup button event listener
         signupBtn.addEventListener("click", async () => {
-            const username = signupUsernameInput.value; // Get username
+            // Username input removed, so removed from here as well
             const email = signupEmailInput.value;
             const password = signupPasswordInput.value;
             const confirmPassword = confirmPasswordInput.value;
 
-            if (!username || !email || !password || !confirmPassword) { // Validate username too
+            if (!email || !password || !confirmPassword) { // No username validation
                 showMessage("Please fill in all fields.", "danger");
                 return;
             }
@@ -211,7 +295,7 @@
             }
 
             try {
-                await signUpUser(email, password, username); // Pass username to signUpUser
+                await signUpUser(email, password); // Removed username parameter
                 showMessage("Account created successfully! Please login.", "success");
                 // Optionally switch back to login form after successful signup
                 showLoginLink.click(); 
@@ -220,12 +304,40 @@
             }
         });
 
+        // Forgot Password link event listener
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const email = loginEmailInput.value; // Use the email from the login form
+
+                if (!email) {
+                    showMessage("Please enter your registered email in the 'Username or Email' field to reset your password.", "warning");
+                    return;
+                }
+
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    showMessage("Password reset email sent! Check your inbox.", "success");
+                } catch (error) {
+                    console.error("Password reset error:", error);
+                    let errorMessage = "Failed to send password reset email. Please try again.";
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = "No account found with that email address.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = "Please enter a valid email address.";
+                    }
+                    showMessage(errorMessage, "danger");
+                }
+            });
+        }
+
         // Optional: Check auth state on load (e.g., if user is already logged in)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is already logged in:", user.uid);
-                // Potentially redirect to dashboard if user is already authenticated
-                // window.location.href = "./portal/dashboard.html"; 
+                // If user is already authenticated, redirect to dashboard
+                // This prevents users who are already logged in from seeing the login page
+                window.location.href = "./portal/dashboard.html"; 
             } else {
                 console.log("No user logged in.");
             }
