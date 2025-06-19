@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JIECEP PUPMC ECEntral</title>
+    <title>JIECEP-PUPMC ECEntral</title>
     <link rel="icon" href="images/jiecep logo.svg" type="image/svg+xml">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -113,9 +113,9 @@
         <div id="messageContainer" class="message-container"></div>
 
         <div id="loginForm">
-            <input type="text" id="loginEmail" class="form-control mb-3" placeholder="Email" required />
+            <input type="email" id="loginEmail" class="form-control mb-3" placeholder="Email" required autocomplete="email" />
             <div class="input-group mb-2">
-                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required />
+                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required autocomplete="current-password" />
                 <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleLoginPassword">
                     <i class="fas fa-eye-slash"></i>
                 </button>
@@ -127,15 +127,15 @@
 
         <div id="signupForm" style="display: none;">
             <!-- Username input removed as requested -->
-            <input type="email" id="signupEmail" class="form-control mb-3" placeholder="Email" required />
+            <input type="email" id="signupEmail" class="form-control mb-3" placeholder="Email" required autocomplete="email" />
             <div class="input-group mb-3">
-                <input type="password" id="signupPassword" class="form-control" placeholder="Password" required />
+                <input type="password" id="signupPassword" class="form-control" placeholder="Password" required autocomplete="new-password" />
                 <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleSignupPassword">
                     <i class="fas fa-eye-slash"></i>
                 </button>
             </div>
             <div class="input-group mb-4">
-                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required />
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required autocomplete="new-password" />
                 <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleConfirmPassword">
                     <i class="fas fa-eye-slash"></i>
                 </button>
@@ -146,9 +146,9 @@
     </div>
 
     <script type="module">
-        // Changed import paths to be absolute from the root (e.g., /js/auth.js)
-        import { signInUser, signUpUser } from "/js/auth.js";
-        import { auth } from "/js/firebase-init.js";
+        // Changed import paths to be relative from the current directory (e.g., ./js/auth.js)
+        import { signInUser, signUpUser } from "./js/auth.js";
+        import { auth } from "./js/firebase-init.js";
         import { onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // DOM Elements
@@ -157,7 +157,6 @@
         const signupForm = document.getElementById("signupForm");
         const loginEmailInput = document.getElementById("loginEmail");
         const loginPasswordInput = document.getElementById("loginPassword");
-        // Removed signupUsernameInput
         const signupEmailInput = document.getElementById("signupEmail");
         const signupPasswordInput = document.getElementById("signupPassword");
         const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -199,6 +198,7 @@
 
         // Function to toggle password visibility
         function togglePasswordVisibility(passwordInput, toggleButton) {
+            console.log(`Toggling visibility for input: ${passwordInput.id}`); // Debugging log
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
                 toggleButton.querySelector('i').classList.remove('fa-eye-slash');
@@ -212,19 +212,56 @@
 
         // Attach toggle functionality to buttons
         if (toggleLoginPasswordBtn) {
+            console.log("Attaching listener to toggleLoginPasswordBtn"); // Debugging log
             toggleLoginPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(loginPasswordInput, toggleLoginPasswordBtn);
             });
+        } else {
+            console.warn("toggleLoginPasswordBtn not found!");
         }
         if (toggleSignupPasswordBtn) {
+            console.log("Attaching listener to toggleSignupPasswordBtn"); // Debugging log
             toggleSignupPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(signupPasswordInput, toggleSignupPasswordBtn);
             });
+        } else {
+            console.warn("toggleSignupPasswordBtn not found!");
         }
         if (toggleConfirmPasswordBtn) {
+            console.log("Attaching listener to toggleConfirmPasswordBtn"); // Debugging log
             toggleConfirmPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordBtn);
             });
+        } else {
+            console.warn("toggleConfirmPasswordBtn not found!");
+        }
+
+        // Function to clear form inputs and reset password visibility
+        function clearFormInputsAndResetVisibility() {
+            loginEmailInput.value = '';
+            loginPasswordInput.value = '';
+            signupEmailInput.value = '';
+            signupPasswordInput.value = '';
+            confirmPasswordInput.value = '';
+
+            // Ensure all password fields are reset to type 'password' and eye-slash icon
+            if (loginPasswordInput) { // Add checks to avoid errors if element not found
+                loginPasswordInput.type = "password";
+                toggleLoginPasswordBtn.querySelector('i').classList.remove('fa-eye');
+                toggleLoginPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            }
+
+            if (signupPasswordInput) {
+                signupPasswordInput.type = "password";
+                toggleSignupPasswordBtn.querySelector('i').classList.remove('fa-eye');
+                toggleSignupPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            }
+
+            if (confirmPasswordInput) {
+                confirmPasswordInput.type = "password";
+                toggleConfirmPasswordBtn.querySelector('i').classList.remove('fa-eye');
+                toggleConfirmPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            }
         }
 
 
@@ -236,10 +273,7 @@
             loginForm.style.display = "none";
             signupForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
-            // Reset password input types to 'password' when switching forms
-            loginPasswordInput.type = "password";
-            toggleLoginPasswordBtn.querySelector('i').classList.remove('fa-eye');
-            toggleLoginPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            clearFormInputsAndResetVisibility(); // Clear inputs and reset visibility
         });
 
         showLoginLink.addEventListener("click", (e) => {
@@ -249,22 +283,16 @@
             signupForm.style.display = "none";
             loginForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
-            // Reset password input types to 'password' when switching forms
-            signupPasswordInput.type = "password";
-            confirmPasswordInput.type = "password";
-            toggleSignupPasswordBtn.querySelector('i').classList.remove('fa-eye');
-            toggleSignupPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
-            toggleConfirmPasswordBtn.querySelector('i').classList.remove('fa-eye');
-            toggleConfirmPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
+            clearFormInputsAndResetVisibility(); // Clear inputs and reset visibility
         });
 
         // Login button event listener
         loginBtn.addEventListener("click", async () => {
-            const email = loginEmailInput.value;
-            const password = loginPasswordInput.value;
+            const email = loginEmailInput.value.trim();
+            const password = loginPasswordInput.value.trim();
 
             if (!email || !password) {
-                showMessage("Please enter both username/email and password.", "danger");
+                showMessage("Please enter both email and password.", "danger");
                 return;
             }
 
@@ -279,12 +307,11 @@
 
         // Signup button event listener
         signupBtn.addEventListener("click", async () => {
-            // Username input removed, so removed from here as well
-            const email = signupEmailInput.value;
-            const password = signupPasswordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
+            const email = signupEmailInput.value.trim();
+            const password = signupPasswordInput.value.trim();
+            const confirmPassword = confirmPasswordInput.value.trim();
 
-            if (!email || !password || !confirmPassword) { // No username validation
+            if (!email || !password || !confirmPassword) {
                 showMessage("Please fill in all fields.", "danger");
                 return;
             }
@@ -295,7 +322,7 @@
             }
 
             try {
-                await signUpUser(email, password); // Removed username parameter
+                await signUpUser(email, password);
                 showMessage("Account created successfully! Please login.", "success");
                 // Optionally switch back to login form after successful signup
                 showLoginLink.click(); 
@@ -306,12 +333,13 @@
 
         // Forgot Password link event listener
         if (forgotPasswordLink) {
+            console.log("Attaching listener to forgotPasswordLink"); // Debugging log
             forgotPasswordLink.addEventListener('click', async (e) => {
                 e.preventDefault();
-                const email = loginEmailInput.value; // Use the email from the login form
+                const email = loginEmailInput.value.trim(); // Use the email from the login form
 
                 if (!email) {
-                    showMessage("Please enter your registered email in the 'Username or Email' field to reset your password.", "warning");
+                    showMessage("Please enter your registered email in the Email field to reset your password.", "warning");
                     return;
                 }
 
@@ -329,6 +357,8 @@
                     showMessage(errorMessage, "danger");
                 }
             });
+        } else {
+            console.warn("forgotPasswordLink not found!");
         }
 
         // Optional: Check auth state on load (e.g., if user is already logged in)

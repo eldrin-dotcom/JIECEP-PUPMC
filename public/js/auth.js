@@ -34,18 +34,14 @@ async function signUpUser(email, password) {
  * @returns {Promise<UserCredential>} A promise that resolves with UserCredential on success.
  * @throws {FirebaseError} If signin fails.
  */
-async function signUpUser(email, password, username) { // Added username parameter
+async function signInUser(email, password) {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Display name is NOT set here, as username input was removed from signup form
-        console.log("User signed up:", user.email);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log("User signed in:", userCredential.user.email);
         return userCredential;
     } catch (error) {
-        console.error("Error signing up:", error);
-        // You can add custom error handling logic here based on error.code
-        throw new Error(getFirebaseErrorMessage(error.code) || "Sign up failed. Please try again.");
+        console.error("Error signing in:", error);
+        throw new Error(getFirebaseErrorMessage(error.code) || "Login failed. Please check your credentials.");
     }
 }
 
