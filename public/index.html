@@ -92,13 +92,15 @@
         <div id="messageContainer" class="message-container"></div>
 
         <div id="loginForm">
-            <input type="email" id="loginEmail" class="form-control mb-3" placeholder="Email" required />
+            <!-- Input type is still 'text' for user flexibility -->
+            <input type="text" id="loginEmail" class="form-control mb-3" placeholder="Email" required />
             <input type="password" id="loginPassword" class="form-control mb-4" placeholder="Password" required />
             <button id="loginBtn" class="btn btn-primary w-100 mb-3">Login</button>
             <p>Don't have an account? <a href="#" id="showSignup" class="toggle-link">Sign Up</a></p>
         </div>
 
         <div id="signupForm" style="display: none;">
+            <input type="text" id="signupUsername" class="form-control mb-3" placeholder="Username" required />
             <input type="email" id="signupEmail" class="form-control mb-3" placeholder="Email" required />
             <input type="password" id="signupPassword" class="form-control mb-3" placeholder="Password" required />
             <input type="password" id="confirmPassword" class="form-control mb-4" placeholder="Confirm Password" required />
@@ -108,7 +110,7 @@
     </div>
 
     <script type="module">
-        // Changed import paths to be absolute from the root
+        // Changed import paths to be absolute from the root (e.g., /js/auth.js)
         import { signInUser, signUpUser } from "/js/auth.js";
         import { auth } from "/js/firebase-init.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -119,6 +121,7 @@
         const signupForm = document.getElementById("signupForm");
         const loginEmailInput = document.getElementById("loginEmail");
         const loginPasswordInput = document.getElementById("loginPassword");
+        const signupUsernameInput = document.getElementById("signupUsername"); // Re-added username input
         const signupEmailInput = document.getElementById("signupEmail");
         const signupPasswordInput = document.getElementById("signupPassword");
         const confirmPasswordInput = document.getElementById("confirmPassword");
@@ -154,6 +157,7 @@
         // Toggle between login and signup forms
         showSignupLink.addEventListener("click", (e) => {
             e.preventDefault();
+            console.log("Sign up link clicked!"); // Debugging log
             authTitle.textContent = "Sign Up for Portal";
             loginForm.style.display = "none";
             signupForm.style.display = "block";
@@ -162,6 +166,7 @@
 
         showLoginLink.addEventListener("click", (e) => {
             e.preventDefault();
+            console.log("Login link clicked!"); // Debugging log
             authTitle.textContent = "Login to Student Portal";
             signupForm.style.display = "none";
             loginForm.style.display = "block";
@@ -170,11 +175,11 @@
 
         // Login button event listener
         loginBtn.addEventListener("click", async () => {
-            const email = loginEmailInput.value;
+            const email = loginEmailInput.value; // Still collects as 'email' for Firebase
             const password = loginPasswordInput.value;
 
             if (!email || !password) {
-                showMessage("Please enter both email and password.", "danger");
+                showMessage("Please enter both username/email and password.", "danger");
                 return;
             }
 
@@ -189,11 +194,12 @@
 
         // Signup button event listener
         signupBtn.addEventListener("click", async () => {
+            const username = signupUsernameInput.value; // Get username
             const email = signupEmailInput.value;
             const password = signupPasswordInput.value;
             const confirmPassword = confirmPasswordInput.value;
 
-            if (!email || !password || !confirmPassword) {
+            if (!username || !email || !password || !confirmPassword) { // Validate username too
                 showMessage("Please fill in all fields.", "danger");
                 return;
             }
@@ -204,7 +210,7 @@
             }
 
             try {
-                await signUpUser(email, password);
+                await signUpUser(email, password, username); // Pass username to signUpUser
                 showMessage("Account created successfully! Please login.", "success");
                 // Optionally switch back to login form after successful signup
                 showLoginLink.click(); 
@@ -214,7 +220,6 @@
         });
 
         // Optional: Check auth state on load (e.g., if user is already logged in)
-        // This might be better handled in dashboard.html to protect routes
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is already logged in:", user.uid);

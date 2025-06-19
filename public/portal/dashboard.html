@@ -53,10 +53,10 @@
             <i class="fas fa-compass"></i>
             <span>Explore</span>
         </a>
-        <a id="signOutNavBtn" class="nav-link" href="#">
-            <i class="fas fa-sign-out-alt"></i>
+        <button class="nav-link" id="signOutMobileBtn" style="background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; color: inherit; font-size: 0.75rem;">
+            <i class="fas fa-sign-out-alt" style="font-size: 1.2rem; margin-bottom: 0.25rem;"></i>
             <span>Sign Out</span>
-        </a>
+        </button>
     </nav>
 
     <!-- Main Content Area -->
@@ -66,7 +66,7 @@
             <section class="col-12 col-lg-8 card welcome-card ">
                 <div class="row align-items-center">
                     <div class="col-12 col-md-8 welcome-text">
-                        <h2 class="mb-2">Welcome back, Alex</h2>
+                        <h2 class="mb-2" id="welcomeMessage">Welcome back, Alex</h2>
                         <p class="progress-info">Your semester progress</p>
                         <div class="progress-bar-custom mb-3">
                             <div class="progress-fill"></div>
@@ -277,6 +277,8 @@
 
         // DOM Elements for sign-out buttons
         const signOutNavBtn = document.getElementById("signOutNavBtn");
+        const signOutMobileBtn = document.getElementById("signOutMobileBtn");
+        const welcomeMessage = document.getElementById("welcomeMessage");
 
         // Function to handle sign out
         async function handleSignOut(e) {
@@ -294,13 +296,18 @@
         if (signOutNavBtn) {
             signOutNavBtn.addEventListener("click", handleSignOut);
         }
+        if (signOutMobileBtn) {
+            signOutMobileBtn.addEventListener("click", handleSignOut);
+        }
 
         // Listen for authentication state changes to update UI or protect routes
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in, update welcome message
                 console.log("User logged in:", user.email || user.uid);
-                welcomeMessage.textContent = `Hello, ${user.email || 'Student'}!`;
+                // Extract username from email or use display name if available
+                const username = user.displayName || (user.email ? user.email.split('@')[0] : 'Student');
+                welcomeMessage.textContent = `Hello, ${username}!`;
 
                 // Optionally hide login/signup forms and show dashboard content
                 // if this script was on a public page. For dashboard, it's assumed
