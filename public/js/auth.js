@@ -54,8 +54,8 @@ async function signOutUser() {
     try {
         await signOut(auth);
         console.log("User signed out.");
-        // Redirect to login page or update UI after sign out
-        window.location.href = "./index.html"; 
+        // Redirect to the root index.html page after sign out
+        window.location.href = "/index.html"; 
     } catch (error) {
         console.error("Error signing out:", error);
         throw new Error(getFirebaseErrorMessage(error.code) || "Sign out failed.");

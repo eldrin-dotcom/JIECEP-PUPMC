@@ -108,8 +108,9 @@
     </div>
 
     <script type="module">
-        import { signInUser, signUpUser, signOutUser } from "./js/auth.js";
-        import { auth } from "./js/firebase-init.js";
+        // Changed import paths to be absolute from the root
+        import { signInUser, signUpUser } from "/js/auth.js";
+        import { auth } from "/js/firebase-init.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // DOM Elements
@@ -179,7 +180,8 @@
 
             try {
                 await signInUser(email, password);
-                window.location.href = "./dashboard.html"; // Redirect on successful login
+                // Redirect to dashboard on successful login, now correctly pointing to the portal folder
+                window.location.href = "./portal/dashboard.html"; 
             } catch (error) {
                 showMessage(error.message || "Login failed. Please try again.", "danger");
             }
@@ -217,7 +219,7 @@
             if (user) {
                 console.log("User is already logged in:", user.uid);
                 // Potentially redirect to dashboard if user is already authenticated
-                // window.location.href = "./dashboard.html"; 
+                // window.location.href = "./portal/dashboard.html"; 
             } else {
                 console.log("No user logged in.");
             }
