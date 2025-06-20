@@ -33,52 +33,58 @@
 
     <style>
 
-        :root {
-            --primary-blue: oklch(70% 0.15 220);  /* perceptually balanced cyan-blue */
-            --light-blue:  oklch(90% 0.08 220);
+       :root {
+            --primary-blue: oklch(70% 0.15 220);
+            --light-blue: oklch(90% 0.08 220);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to top, var(--primary-blue), var(--light-blue), white);
             display: flex;
-            flex-direction: column; /* Arrange items vertically */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* NEW CSS FOR THE NAVBAR-STYLE LOGO */
-        .top-logo-container {
-            text-align: center; /* Centers the image inside it */
-            margin-bottom: 2rem; /* Space between logo and auth container */
-            padding-top: 1rem; /* A little padding at the very top */
+        /* 👇 Transparent Logo Layer — covers half screen or more */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 700px; /* Covers right side responsively */
+            height: 100vh;
+            background: url('images/JIECEP\ logo.png') no-repeat right center;
+            background-size: 700px auto; /* Maintain logo size */
+            background-repeat: no-repeat;
+            opacity: 0.12;
+            z-index: 0;
+            pointer-events: none;
         }
 
-        .navbar-logo {
-            max-width: 100px; /* Adjust size of your logo */
-            height: auto; /* Maintain aspect ratio */
-            display: inline-block;
-            opacity: 0.7;/* Or block, then margin auto if you want strict block centering */
-            /* filter: drop-shadow(0 0 8px rgba(0,0,0,0.2)); /* Optional subtle shadow */
-        }
+        /* 👇 Glassmorphism container */
         .auth-container {
-            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            background-color: rgba(255, 255, 255, 0.2);
             padding: 30px;
-            border-radius: 1rem; /* Slightly larger border-radius for a softer look */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); /* More prominent, yet soft shadow */
-            backdrop-filter: blur(10px); /* The magic! Adjust blur amount */
-            -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Light, transparent border */
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             max-width: 400px;
             width: 100%;
             text-align: center;
-            /* Ensure z-index if you have complex layering, otherwise not strictly needed */
-            /* z-index: 1; */ 
+            position: relative;
+            z-index: 1;
         }
+
         .auth-container h1 {
             color: #2c3e50; /* Dark blue text */
             margin-bottom: 1.5rem;
@@ -155,9 +161,6 @@
     </style>
 </head>
 <body>
-    <div class="top-logo-container">
-        <img src="images/JIECEP logo.png" alt="JIECEP Logo" class="navbar-logo">
-    </div>
     <div class="auth-container">
         <h1 id="authTitle" class="mb-3">Login</h1>
         <div id="messageContainer" class="message-container"></div>
