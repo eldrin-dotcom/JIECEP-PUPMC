@@ -32,9 +32,14 @@
     </script>
 
     <style>
+
+        :root {
+            --primary-blue: #54acbf;     /* Adjusted to match the original turquoise blue */
+            --light-blue: #b6f0f8; /* Light blue background */
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(to top, #54acbf, #b6f0f8, white);
+            background: linear-gradient(to top, var(--primary-blue), var(--light-blue), white);
             display: flex;
             flex-direction: column; /* Arrange items vertically */
             justify-content: center;
