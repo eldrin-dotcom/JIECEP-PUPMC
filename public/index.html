@@ -34,9 +34,10 @@
     <style>
 
         :root {
-            --primary-blue: #54acbf;     /* Adjusted to match the original turquoise blue */
-            --light-blue: #b6f0f8; /* Light blue background */
+            --primary-blue: oklch(70% 0.15 220);  /* perceptually balanced cyan-blue */
+            --light-blue:  oklch(90% 0.08 220);
         }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to top, var(--primary-blue), var(--light-blue), white);
