@@ -5,11 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JIECEP-PUPMC ECEntral</title>
     <link rel="icon" href="images/jiecep logo.svg" type="image/svg+xml">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons (for password toggle) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
     (function() {
@@ -26,7 +23,7 @@
             <p>You're currently using an in-app browser (Messenger/Facebook/Instagram) which may cause issues.</p>
             <a href="${window.location.href}" target="_blank" rel="noopener noreferrer"
                 style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: #007bff; color: #fff; text-decoration: none; border-radius: 0.5rem;">
-                Open in Browser
+                    Open in Browser
             </a>
             </div>
         `;
@@ -37,7 +34,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; /* Light gray background */
+            background: linear-gradient(to top, #54acbf, #b6f0f8, white);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -47,13 +44,18 @@
             box-sizing: border-box;
         }
         .auth-container {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
             padding: 30px;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem; /* Slightly larger border-radius for a softer look */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); /* More prominent, yet soft shadow */
+            backdrop-filter: blur(10px); /* The magic! Adjust blur amount */
+            -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Light, transparent border */
             max-width: 400px;
             width: 100%;
             text-align: center;
+            /* Ensure z-index if you have complex layering, otherwise not strictly needed */
+            /* z-index: 1; */ 
         }
         .auth-container h1 {
             color: #2c3e50; /* Dark blue text */
@@ -131,15 +133,16 @@
     </style>
 </head>
 <body>
+    
     <div class="auth-container">
-        <h1 id="authTitle">Login</h1>
+        <h1 id="authTitle" class="mb-3">Login</h1>
         <div id="messageContainer" class="message-container"></div>
 
         <div id="loginForm">
             <input type="email" id="loginEmail" class="form-control mb-3" placeholder="Email" required autocomplete="email" />
             <div class="input-group mb-2">
                 <input type="password" id="loginPassword" class="form-control" placeholder="Password" required autocomplete="current-password" />
-                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleLoginPassword">
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleLoginPassword" aria-label="Toggle login password visibility">
                     <i class="fas fa-eye-slash"></i>
                 </button>
             </div>
@@ -149,17 +152,16 @@
         </div>
 
         <div id="signupForm" style="display: none;">
-            <!-- Username input removed as requested -->
             <input type="email" id="signupEmail" class="form-control mb-3" placeholder="Email" required autocomplete="email" />
             <div class="input-group mb-3">
                 <input type="password" id="signupPassword" class="form-control" placeholder="Password" required autocomplete="new-password" />
-                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleSignupPassword">
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleSignupPassword" aria-label="Toggle signup password visibility">
                     <i class="fas fa-eye-slash"></i>
                 </button>
             </div>
             <div class="input-group mb-4">
                 <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required autocomplete="new-password" />
-                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleConfirmPassword">
+                <button class="btn btn-outline-secondary input-group-text" type="button" id="toggleConfirmPassword" aria-label="Toggle confirm password visibility">
                     <i class="fas fa-eye-slash"></i>
                 </button>
             </div>
@@ -167,6 +169,8 @@
             <p>Already have an account? <a href="#" id="showLogin" class="toggle-link">Login</a></p>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script type="module">
         // Changed import paths to be relative from the current directory (e.g., ./js/auth.js)
@@ -187,7 +191,7 @@
         const signupBtn = document.getElementById("signupBtn");
         const showSignupLink = document.getElementById("showSignup");
         const showLoginLink = document.getElementById("showLogin");
-        const forgotPasswordLink = document.getElementById("forgotPasswordLink"); // New: Forgot password link
+        const forgotPasswordLink = document.getElementById("forgotPasswordLink");
         const messageContainer = document.getElementById("messageContainer");
 
         // Password toggle buttons
@@ -210,10 +214,17 @@
             
             // Auto-dismiss after 5 seconds
             setTimeout(() => {
-                const bootstrapAlert = bootstrap.Alert.getInstance(alertDiv);
-                if (bootstrapAlert) {
-                    bootstrapAlert.dispose();
+                // Ensure bootstrap object is available before trying to use it
+                if (typeof bootstrap !== 'undefined' && bootstrap.Alert) {
+                    const bootstrapAlert = bootstrap.Alert.getInstance(alertDiv);
+                    if (bootstrapAlert) {
+                        bootstrapAlert.dispose();
+                    } else {
+                        // Fallback if getInstance doesn't return an instance (e.g., if it was already dismissed manually)
+                        alertDiv.remove();
+                    }
                 } else {
+                    // Fallback if Bootstrap JS is not fully loaded or 'bootstrap' is undefined
                     alertDiv.remove();
                 }
             }, 5000);
@@ -221,7 +232,6 @@
 
         // Function to toggle password visibility
         function togglePasswordVisibility(passwordInput, toggleButton) {
-            console.log(`Toggling visibility for input: ${passwordInput.id}`); // Debugging log
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
                 toggleButton.querySelector('i').classList.remove('fa-eye-slash');
@@ -234,30 +244,21 @@
         }
 
         // Attach toggle functionality to buttons
-        if (toggleLoginPasswordBtn) {
-            console.log("Attaching listener to toggleLoginPasswordBtn"); // Debugging log
+        if (toggleLoginPasswordBtn && loginPasswordInput) {
             toggleLoginPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(loginPasswordInput, toggleLoginPasswordBtn);
             });
-        } else {
-            console.warn("toggleLoginPasswordBtn not found!");
-        }
-        if (toggleSignupPasswordBtn) {
-            console.log("Attaching listener to toggleSignupPasswordBtn"); // Debugging log
+        } 
+        if (toggleSignupPasswordBtn && signupPasswordInput) {
             toggleSignupPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(signupPasswordInput, toggleSignupPasswordBtn);
             });
-        } else {
-            console.warn("toggleSignupPasswordBtn not found!");
-        }
-        if (toggleConfirmPasswordBtn) {
-            console.log("Attaching listener to toggleConfirmPasswordBtn"); // Debugging log
+        } 
+        if (toggleConfirmPasswordBtn && confirmPasswordInput) {
             toggleConfirmPasswordBtn.addEventListener('click', () => {
                 togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordBtn);
             });
-        } else {
-            console.warn("toggleConfirmPasswordBtn not found!");
-        }
+        } 
 
         // Function to clear form inputs and reset password visibility
         function clearFormInputsAndResetVisibility() {
@@ -268,19 +269,19 @@
             confirmPasswordInput.value = '';
 
             // Ensure all password fields are reset to type 'password' and eye-slash icon
-            if (loginPasswordInput) { // Add checks to avoid errors if element not found
+            if (loginPasswordInput && toggleLoginPasswordBtn) { 
                 loginPasswordInput.type = "password";
                 toggleLoginPasswordBtn.querySelector('i').classList.remove('fa-eye');
                 toggleLoginPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
             }
 
-            if (signupPasswordInput) {
+            if (signupPasswordInput && toggleSignupPasswordBtn) {
                 signupPasswordInput.type = "password";
                 toggleSignupPasswordBtn.querySelector('i').classList.remove('fa-eye');
                 toggleSignupPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
             }
 
-            if (confirmPasswordInput) {
+            if (confirmPasswordInput && toggleConfirmPasswordBtn) {
                 confirmPasswordInput.type = "password";
                 toggleConfirmPasswordBtn.querySelector('i').classList.remove('fa-eye');
                 toggleConfirmPasswordBtn.querySelector('i').classList.add('fa-eye-slash');
@@ -291,8 +292,7 @@
         // Toggle between login and signup forms
         showSignupLink.addEventListener("click", (e) => {
             e.preventDefault();
-            console.log("Sign up link clicked!"); // Debugging log
-            authTitle.textContent = "Sign Up for Portal";
+            authTitle.textContent = "Sign Up";
             loginForm.style.display = "none";
             signupForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
@@ -301,8 +301,7 @@
 
         showLoginLink.addEventListener("click", (e) => {
             e.preventDefault();
-            console.log("Login link clicked!"); // Debugging log
-            authTitle.textContent = "Login to Student Portal";
+            authTitle.textContent = "Login";
             signupForm.style.display = "none";
             loginForm.style.display = "block";
             messageContainer.innerHTML = ''; // Clear messages when switching form
@@ -324,7 +323,18 @@
                 // Redirect to dashboard on successful login, now correctly pointing to the portal folder
                 window.location.href = "./portal/dashboard.html"; 
             } catch (error) {
-                showMessage(error.message || "Login failed. Please try again.", "danger");
+                let errorMessage = "Login failed. Please try again.";
+                if (error.code === 'auth/invalid-email') {
+                    errorMessage = "Invalid email address.";
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = "Incorrect password.";
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = "No account found with this email.";
+                } else if (error.code === 'auth/invalid-credential') {
+                    // Firebase sometimes uses 'invalid-credential' for wrong password/user not found combos
+                    errorMessage = "Invalid email or password."; 
+                }
+                showMessage(errorMessage, "danger");
             }
         });
 
@@ -350,13 +360,20 @@
                 // Optionally switch back to login form after successful signup
                 showLoginLink.click(); 
             } catch (error) {
-                showMessage(error.message || "Sign up failed. Please try again.", "danger");
+                let errorMessage = "Sign up failed. Please try again.";
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = "This email is already in use.";
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = "Invalid email address.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "Password should be at least 6 characters.";
+                }
+                showMessage(errorMessage, "danger");
             }
         });
 
         // Forgot Password link event listener
         if (forgotPasswordLink) {
-            console.log("Attaching listener to forgotPasswordLink"); // Debugging log
             forgotPasswordLink.addEventListener('click', async (e) => {
                 e.preventDefault();
                 const email = loginEmailInput.value.trim(); // Use the email from the login form
@@ -380,9 +397,7 @@
                     showMessage(errorMessage, "danger");
                 }
             });
-        } else {
-            console.warn("forgotPasswordLink not found!");
-        }
+        } 
 
         // Optional: Check auth state on load (e.g., if user is already logged in)
         onAuthStateChanged(auth, (user) => {
@@ -396,7 +411,5 @@
             }
         });
     </script>
-    <!-- Bootstrap JS Bundle for dismissible alerts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
