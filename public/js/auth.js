@@ -89,3 +89,4 @@ function getFirebaseErrorMessage(code) {
 }
 
 export { signUpUser, signInUser, signOutUser };
+
