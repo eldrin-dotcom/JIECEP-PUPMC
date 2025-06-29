@@ -188,4 +188,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Initial render
             renderCalendar(currentDate);
+
+            // Define semester start and end dates (adjust as needed)
+            const semesterStart = new Date("2025-02-17");
+            const semesterEnd = new Date("2025-12-15");
+
+            const today = new Date();
+            const totalDays = (semesterEnd - semesterStart) / (1000 * 60 * 60 * 24);
+            const daysPassed = (today - semesterStart) / (1000 * 60 * 60 * 24);
+
+            let progressPercent = Math.max(0, Math.min((daysPassed / totalDays) * 100, 100));
+            let daysRemaining = Math.ceil((semesterEnd - today) / (1000 * 60 * 60 * 24));
+            progressText.textContent = `${progressPercent.toFixed(0)}% complete - ${daysRemaining} day${daysRemaining !== 1 ? "s" : ""} remaining`;
+
+
+            // Update progress bar
+            const fill = document.getElementById("progressFill");
+            fill.style.width = progressPercent.toFixed(2) + "%";
+
         });

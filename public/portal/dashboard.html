@@ -39,6 +39,7 @@
                 </ul>
             </div>
         </div>
+        
     </nav>
  <!-- Bottom Navigation Bar for Mobile/Tablet -->
     <nav class="bottom-navbar d-flex justify-content-around align-items-center py-2 d-lg-none">
@@ -70,9 +71,10 @@
                         <h2 class="mb-2" id="welcomeMessage">Welcome,</h2>
                         <p class="progress-info">Your semester progress</p>
                         <div class="progress-bar-custom mb-3">
-                            <div class="progress-fill"></div>
+                            <div class="progress-fill" id="progressFill"></div>
                         </div>
-                        <p class="mb-4">85% complete - 4 weeks remaining</p>
+                        <p class="mb-4" id="progressText">Loading progress...</p>
+
                         <div class="actions">
                             <button class="btn btn-sm"><i class="fas fa-calendar-alt me-2"></i>View Schedule</button>
                             <button class="btn btn-sm"><i class="fas fa-book me-2"></i>Resources</button>
