@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // Initially display events for the current day if it's in the current month view
-                const todayFormatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                if (month === today.getMonth() && year === today.getFullYear()) {
+                const todayFormatted = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+                if (month === currentDate.getMonth() && year === currentDate.getFullYear()) {
                     displayEventsForDate(todayFormatted);
                     const todayCell = document.querySelector(`.calendar-date.today`);
                     if (todayCell) {
@@ -189,21 +189,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // Initial render
             renderCalendar(currentDate);
 
-            // Define semester start and end dates (adjust as needed)
+            // SEMESTER PROGRESS BAR LOGIC
             const semesterStart = new Date("2025-02-17");
-            const semesterEnd = new Date("2025-12-15");
+            const semesterEnd = new Date("2025-06-30");
 
-            const today = new Date();
+            // Make sure semesterStart <= today <= semesterEnd
             const totalDays = (semesterEnd - semesterStart) / (1000 * 60 * 60 * 24);
-            const daysPassed = (today - semesterStart) / (1000 * 60 * 60 * 24);
+            const daysPassed = (currentDate - semesterStart) / (1000 * 60 * 60 * 24);
+            const daysRemaining = Math.ceil((semesterEnd - currentDate) / (1000 * 60 * 60 * 24));
 
+            // Clamp progress between 0% and 100%
             let progressPercent = Math.max(0, Math.min((daysPassed / totalDays) * 100, 100));
-            let daysRemaining = Math.ceil((semesterEnd - today) / (1000 * 60 * 60 * 24));
-            progressText.textContent = `${progressPercent.toFixed(0)}% complete - ${daysRemaining} day${daysRemaining !== 1 ? "s" : ""} remaining`;
 
+            // DOM targets (make sure they exist!)
+            const progressFill = document.getElementById("progressFill");
+            const progressText = document.getElementById("progressText");
 
-            // Update progress bar
-            const fill = document.getElementById("progressFill");
-            fill.style.width = progressPercent.toFixed(2) + "%";
+            // Only update if both elements are found
+            if (progressFill && progressText) {
+                progressFill.style.width = progressPercent.toFixed(2) + "%";
+                progressText.textContent = `${progressPercent.toFixed(0)}% complete - ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining`;
+            } else {
+                console.error("Missing #progressFill or #progressText in HTML.");
+            }
+
 
         });
